@@ -138,3 +138,10 @@ docker compose up -d
 
 - `系统设计说明书.md`：完整系统设计、架构、数据模型、接口、算法和阶段规划。
 - `PLAN.md`：当前开发执行计划和阶段任务。
+- `docs/architecture.md`：系统架构、服务边界和数据流。
+- `docs/database.md`：核心表结构、PostGIS 索引和分区策略。
+- `docs/api.md`：接口规范、请求响应、错误码和权限说明。
+- `docs/data-pipeline.md`：MVP、Kafka/Flink、Spark 数据链路。
+- `docs/algorithm.md`：轨迹清洗、停留点、异常检测和抽稀算法。
+- `docs/deployment.md`：本地、演示和生产部署规划。
+- `docs/testing.md`：测试分层、接口用例、压测和冒烟验证。
