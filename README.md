@@ -61,27 +61,18 @@
 - HDFS/HBase
 - Docker Compose
 
-## 建议目录结构
+## 目录结构
 
 ```text
 stip/
   backend/
-    common/
-    gateway-service/
-    auth-service/
-    ingestion-service/
-    trajectory-service/
-    fence-service/
-    alert-service/
-    analytics-service/
-  compute/
-    flink-jobs/
-    spark-jobs/
+    src/main/java/com/stip/
+    src/main/resources/db/migration/
+    pom.xml
   frontend/
     admin-web/
   deploy/
     docker-compose.yml
-    sql/
   docs/
     architecture.md
     database.md
@@ -97,23 +88,78 @@ stip/
   系统设计说明书.md
 ```
 
-第一阶段可以先采用模块化单体或轻量多模块后端，避免过早引入完整微服务复杂度。
+第一阶段采用 Spring Boot 模块化单体骨架，保留后续拆分微服务的包边界。
 
 ## 本地开发
 
-当前仓库尚未初始化源码工程，暂不提供可执行启动命令。工程初始化后应补充：
+### 环境要求
+
+- JDK 17，当前推荐路径：`D:\jdk-17.0.17`
+- Maven 3.9+，当前推荐路径：`D:\maven-3.9.9`
+- Node.js 20+
+- npm 10+
+- Docker Desktop
+
+如果 PowerShell 默认 `java` 仍指向 Java 8，请在当前终端设置：
+
+```powershell
+$env:JAVA_HOME="D:\jdk-17.0.17"
+$env:Path="$env:JAVA_HOME\bin;D:\maven-3.9.9\bin;$env:Path"
+```
+
+### 启动基础依赖
+
+执行前请确认 Docker Desktop 已启动，并且 Linux Engine 正常运行。
 
 ```bash
-# 启动基础依赖
 docker compose up -d
+```
 
-# 启动后端
+当前 Compose 启动：
 
-# 启动前端
+- PostgreSQL 16 + PostGIS 3.4
+- Redis 7.4
 
-# 执行测试
+Flyway 迁移脚本位于 `backend/src/main/resources/db/migration/`：
 
-# 构建
+- `V1__init_extensions.sql`：启用 PostGIS。
+- `V2__create_core_tables.sql`：创建实体、轨迹点、最新位置、围栏、告警、停留点核心表。
+- `V3__create_indexes.sql`：创建普通索引和 GiST 空间索引。
+- `V4__insert_demo_data.sql`：插入演示实体、轨迹点、最新位置和围栏。
+
+### 启动后端
+
+```bash
+cd backend
+mvn.cmd spring-boot:run
+```
+
+后端默认地址：
+
+- API: `http://localhost:8080/api/v1`
+- Health: `http://localhost:8080/api/v1/system/health`
+- Swagger UI: `http://localhost:8080/swagger-ui.html`
+
+### 启动前端
+
+```bash
+cd frontend/admin-web
+npm.cmd install
+npm.cmd run dev
+```
+
+前端默认地址：`http://localhost:5173`
+
+### 测试与构建
+
+```bash
+# 后端测试
+cd backend
+mvn.cmd test
+
+# 前端构建
+cd frontend/admin-web
+npm.cmd run build
 ```
 
 ## 交付标准

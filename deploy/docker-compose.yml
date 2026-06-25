@@ -1,0 +1,37 @@
+services:
+  postgres:
+    image: postgis/postgis:16-3.4
+    container_name: stip-postgres
+    environment:
+      POSTGRES_DB: stip
+      POSTGRES_USER: stip
+      POSTGRES_PASSWORD: stip
+      TZ: Asia/Shanghai
+    ports:
+      - "5432:5432"
+    volumes:
+      - stip-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U stip -d stip"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7.4-alpine
+    container_name: stip-redis
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - stip-redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  stip-postgres-data:
+  stip-redis-data:
+
