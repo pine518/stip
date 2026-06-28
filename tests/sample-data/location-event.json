@@ -1,0 +1,13 @@
+{
+  "eventId": "manual-gps-001",
+  "entityCode": "CAR-001",
+  "entityType": "VEHICLE",
+  "sourceType": "GPS",
+  "longitude": 121.483701,
+  "latitude": 31.235416,
+  "speed": 36.5,
+  "direction": 92.0,
+  "accuracy": 8.0,
+  "eventTime": "2026-06-28T10:30:00+08:00"
+}
+

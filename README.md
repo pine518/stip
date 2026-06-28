@@ -218,3 +218,4 @@ npm.cmd run build
 - `docs/algorithm.md`：轨迹清洗、停留点、异常检测和抽稀算法。
 - `docs/deployment.md`：本地、演示和生产部署规划。
 - `docs/testing.md`：测试分层、接口用例、压测和冒烟验证。
+- `docs/frontend-interactions.md`：前端菜单、页面状态和功能交互逻辑。
