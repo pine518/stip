@@ -107,7 +107,32 @@ $env:JAVA_HOME="D:\jdk-17.0.17"
 $env:Path="$env:JAVA_HOME\bin;D:\maven-3.9.9\bin;$env:Path"
 ```
 
-### 启动基础依赖
+### 数据库准备
+
+当前默认使用本机 PostgreSQL：
+
+```text
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=stip
+DB_USERNAME=stip
+DB_PASSWORD=stip
+```
+
+如果本机 PostgreSQL 中还没有 `stip` 用户和数据库，请用 PostgreSQL 超级用户执行：
+
+```bash
+psql -U postgres -f deploy/local-postgres-init.sql
+```
+
+如果 `psql` 不在 PATH，可以在 PostgreSQL 安装目录的 `bin` 目录下执行同等命令，或使用 pgAdmin 手动创建：
+
+- database: `stip`
+- user: `stip`
+- password: `stip`
+- extension: `postgis`
+
+### Docker 依赖，可选
 
 执行前请确认 Docker Desktop 已启动，并且 Linux Engine 正常运行。
 
@@ -117,8 +142,8 @@ docker compose up -d
 
 当前 Compose 启动：
 
-- PostgreSQL 16 + PostGIS 3.4
-- Redis 7.4
+- PostgreSQL 16 + PostGIS 3.4，容器端口 `5432`，宿主机端口 `15432`
+- Redis 7.4，容器端口 `6379`，宿主机端口 `16379`
 
 Flyway 迁移脚本位于 `backend/src/main/resources/db/migration/`：
 
@@ -139,6 +164,8 @@ mvn.cmd spring-boot:run
 - API: `http://localhost:8080/api/v1`
 - Health: `http://localhost:8080/api/v1/system/health`
 - Swagger UI: `http://localhost:8080/swagger-ui.html`
+
+如果要连接 Docker 中的 PostGIS，请显式设置 `DB_PORT=15432`。
 
 ### 启动前端
 

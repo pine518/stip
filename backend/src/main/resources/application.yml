@@ -6,8 +6,8 @@ spring:
     name: stip-backend
   datasource:
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:stip}
-    username: ${DB_USERNAME:stip}
-    password: ${DB_PASSWORD:stip}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
   flyway:
     enabled: true
     locations: classpath:db/migration
@@ -25,4 +25,3 @@ springdoc:
     path: /api-docs
   swagger-ui:
     path: /swagger-ui.html
-
